@@ -2,7 +2,7 @@ Praat-Py: Extended Praat for Python Scripting
 
 By Joshua Tauberer <http://razor.occams.info>
 
-Originally developed in 2009. Perhaps not currently being maintained.
+Originally developed in 2009. Only vaguely being currently maintained.
 
 ## Introduction
 
