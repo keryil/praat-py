@@ -1,7 +1,7 @@
-diff -ur -x '*.[oa]' sources_5308/makefile sources_current/makefile
---- sources_5308/makefile	2012-01-14 07:28:16.000000000 -0500
-+++ sources_current/makefile	2012-03-07 13:10:54.000000000 -0500
-@@ -31,6 +31,7 @@
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/makefile sources_5353_patched/makefile
+--- sources_5353/makefile 2012-01-14 13:28:16.000000000 +0100
++++ sources_5353_patched/makefile	2013-07-18 14:50:58.169074378 +0200
+@@ -31,6 +31,7 @@ all:
  	$(MAKE) -C artsynth
  	$(MAKE) -C contrib/ola
  	$(MAKE) -C main main_Praat.o $(ICON)
@@ -9,7 +9,7 @@ diff -ur -x '*.[oa]' sources_5308/makefile sources_current/makefile
  	$(LINK) -o $(EXECUTABLE) main/main_Praat.o $(MAIN_ICON) fon/libfon.a \
  		contrib/ola/libOla.a artsynth/libartsynth.a \
  		FFNet/libFFNet.a gram/libgram.a EEG/libEEG.a \
-@@ -40,6 +41,7 @@
+@@ -40,6 +41,7 @@ all:
  		external/espeak/libespeak.a external/portaudio/libportaudio.a \
  		external/flac/libflac.a external/mp3/libmp3.a \
  		external/glpk/libglpk.a external/gsl/libgsl.a \
@@ -17,29 +17,32 @@ diff -ur -x '*.[oa]' sources_5308/makefile sources_current/makefile
  		$(LIBS)
  
  clean:
-@@ -62,5 +64,6 @@
+@@ -62,5 +64,6 @@ clean:
  	$(MAKE) -C FFNet clean
  	$(MAKE) -C artsynth clean
  	$(MAKE) -C contrib/ola clean
 +	$(MAKE) -C scripting clean
  	# $(MAKE) -C main clean
  	$(RM) praat
-diff -ur -x '*.[oa]' sources_5308/makefiles/makefile.defs.linux sources_current/makefiles/makefile.defs.linux
---- sources_5308/makefiles/makefile.defs.linux	2011-09-08 07:55:55.000000000 -0400
-+++ sources_current/makefiles/makefile.defs.linux	2012-03-07 13:10:06.000000000 -0500
-@@ -13,7 +13,7 @@
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/makefiles/makefile.defs.linux.alsa sources_5353_patched/makefiles/makefile.defs.linux.alsa
+--- sources_5353/makefiles/makefile.defs.linux.alsa	2012-11-20 23:38:16.000000000 +0100
++++ sources_5353_patched/makefiles/makefile.defs.linux.alsa	2013-07-18 14:50:58.169074378 +0200
+@@ -13,9 +13,9 @@ CXXFLAGS = $(CFLAGS) -Wshadow
  
  LINK = g++
  
 -EXECUTABLE = praat
 +EXECUTABLE = praat-py
  
- LIBS = `pkg-config --libs gtk+-2.0` -lm -lasound
+-LIBS = `pkg-config --libs gtk+-2.0` -lm -lasound
++LIBS = `pkg-config --libs gtk+-2.0` -lm -lasound -lpthread
  
-diff -ur -x '*.[oa]' sources_5308/makefiles/makefile.defs.mingw32 sources_current/makefiles/makefile.defs.mingw32
---- sources_5308/makefiles/makefile.defs.mingw32	2011-09-14 11:15:37.000000000 -0400
-+++ sources_current/makefiles/makefile.defs.mingw32	2012-03-07 13:11:56.000000000 -0500
-@@ -15,7 +15,7 @@
+ RANLIB = ls
+ ICON =
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/makefiles/makefile.defs.mingw32 sources_5353_patched/makefiles/makefile.defs.mingw32
+--- sources_5353/makefiles/makefile.defs.mingw32	2012-08-08 21:05:11.000000000 +0200
++++ sources_5353_patched/makefiles/makefile.defs.mingw32	2013-07-18 14:50:58.170074395 +0200
+@@ -13,7 +13,7 @@ CXXFLAGS = $(CFLAGS)
  
  LINK = /mingw32/bin/g++
  
@@ -47,11 +50,12 @@ diff -ur -x '*.[oa]' sources_5308/makefiles/makefile.defs.mingw32 sources_curren
 +EXECUTABLE = Praat-Py.exe
  
  LIBS = -L/mingw32/lib -lwinmm -lwsock32 -lcomctl32 -lole32 -lgdi32 -lgdiplus -lcomdlg32 -static-libgcc -static-libstdc++ -mwindows
- #LIBS = -L/mingw32/lib -lwinmm -lwsock32 -lcomctl32 -lole32 -lgdi32 -lgdiplus -lcomdlg32 /mingw32/lib/QTMLClient.lib -static-libgcc -static-libstdc++ -mwindows
-diff -ur -x '*.[oa]' sources_5308/sys/Interpreter.cpp sources_current/sys/Interpreter.cpp
---- sources_5308/sys/Interpreter.cpp	2012-03-03 15:54:10.000000000 -0500
-+++ sources_current/sys/Interpreter.cpp	2012-03-07 13:34:03.000000000 -0500
-@@ -61,6 +61,7 @@
+ 
+Binary files sources_5353/praat-py and sources_5353_patched/praat-py differ
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/sys/Interpreter.cpp sources_5353_patched/sys/Interpreter.cpp
+--- sources_5353/sys/Interpreter.cpp	2013-04-21 17:06:38.000000000 +0200
++++ sources_5353_patched/sys/Interpreter.cpp	2013-07-18 14:59:59.110609846 +0200
+@@ -61,6 +61,7 @@ extern structMelderDir praatDir;
  #include "Formula.h"
  #include "praat_version.h"
  #include "UnicodeData.h"
@@ -59,7 +63,7 @@ diff -ur -x '*.[oa]' sources_5308/sys/Interpreter.cpp sources_current/sys/Interp
  
  #define Interpreter_WORD 1
  #define Interpreter_REAL 2
-@@ -628,7 +629,14 @@
+@@ -628,7 +629,14 @@ static void parameterToVariable (Interpr
  	}
  }
  
@@ -67,36 +71,35 @@ diff -ur -x '*.[oa]' sources_5308/sys/Interpreter.cpp sources_current/sys/Interp
 +	my argv = (wchar **)argv; // loss of const can't be a good thing...
 +}
 +
- void Interpreter_run (Interpreter me, wchar *text) {
+ void Interpreter_run (Interpreter me, wchar_t *text) {
 +	if (scripting_run_praat_script(me, text, my argv))
 +		return;
 +	
- 	autoNUMvector <wchar *> lines;   // not autostringvector, because the elements are reference copies
+ 	autoNUMvector <wchar_t *> lines;   // not autostringvector, because the elements are reference copies
  	long lineNumber = 0;
  	bool assertionFailed = false;
-diff -ur -x '*.[oa]' sources_5308/sys/Interpreter.h sources_current/sys/Interpreter.h
---- sources_5308/sys/Interpreter.h	2011-08-15 09:42:29.000000000 -0400
-+++ sources_current/sys/Interpreter.h	2012-11-11 13:05:03.000000000 -0500
-@@ -55,6 +55,7 @@
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/sys/Interpreter.h sources_5353_patched/sys/Interpreter.h
+--- sources_5353/sys/Interpreter.h	2013-04-01 21:58:35.000000000 +0200
++++ sources_5353_patched/sys/Interpreter.h	2013-07-18 14:53:31.286777468 +0200
+@@ -55,6 +55,7 @@ Thing_define (Interpreter, Thing) {
  		long labelLines [1+Interpreter_MAXNUM_LABELS];
- 		wchar dialogTitle [1+100], procedureNames [1+Interpreter_MAX_CALL_DEPTH] [100];
+ 		wchar_t dialogTitle [1+100], procedureNames [1+Interpreter_MAX_CALL_DEPTH] [100];
  		SortedSetOfString variables;
 +		wchar **argv;
  		bool running, stopped;
  	// overridden methods:
  	protected:
-@@ -78,6 +79,7 @@
- void Interpreter_stringExpression (Interpreter me, const wchar *expression, wchar **value);
- void Interpreter_numericArrayExpression (Interpreter me, const wchar *expression, struct Formula_NumericArray *value);
- void Interpreter_anyExpression (Interpreter me, const wchar *expression, struct Formula_Result *result);
-+void Interpreter_setArgv (Interpreter me, const wchar **argv);
+@@ -82,5 +83,6 @@ void Interpreter_anyExpression (Interpre
+ InterpreterVariable Interpreter_hasVariable (Interpreter me, const wchar_t *key);
+ InterpreterVariable Interpreter_lookUpVariable (Interpreter me, const wchar_t *key);
  
- InterpreterVariable Interpreter_hasVariable (Interpreter me, const wchar *key);
- InterpreterVariable Interpreter_lookUpVariable (Interpreter me, const wchar *key);
-diff -ur -x '*.[oa]' sources_5308/sys/praat.cpp sources_current/sys/praat.cpp
---- sources_5308/sys/praat.cpp	2012-02-18 07:04:25.000000000 -0500
-+++ sources_current/sys/praat.cpp	2012-03-07 13:17:44.000000000 -0500
-@@ -1193,13 +1193,16 @@
++void Interpreter_setArgv (Interpreter me, const wchar **argv);
+ /* End of file Interpreter.h */
+ #endif
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/sys/praat.cpp sources_5353_patched/sys/praat.cpp
+--- sources_5353/sys/praat.cpp	2013-05-30 18:37:09.000000000 +0200
++++ sources_5353_patched/sys/praat.cpp	2013-07-18 14:50:58.172074430 +0200
+@@ -1181,13 +1181,16 @@ void praat_init (const char *title, unsi
  	if (Melder_batch) {
  		#if defined (UNIX) || defined (macintosh) || defined (_WIN32) && defined (CONSOLE_APPLICATION)
  			MelderString_empty (& theCurrentPraatApplication -> batchName);
@@ -113,7 +116,7 @@ diff -ur -x '*.[oa]' sources_5308/sys/praat.cpp sources_current/sys/praat.cpp
  		#elif defined (_WIN32)
  			MelderString_copy (& theCurrentPraatApplication -> batchName, Melder_peekUtf8ToWcs (argv [3]));
  		#endif
-@@ -1417,7 +1420,7 @@
+@@ -1438,7 +1441,7 @@ void praat_run (void) {
  			}
  		} else {
  			try {
@@ -122,24 +125,24 @@ diff -ur -x '*.[oa]' sources_5308/sys/praat.cpp sources_current/sys/praat.cpp
  				praat_exit (0);
  			} catch (MelderError) {
  				/*
-diff -ur -x '*.[oa]' sources_5308/sys/praat.h sources_current/sys/praat.h
---- sources_5308/sys/praat.h	2011-09-13 11:43:34.000000000 -0400
-+++ sources_current/sys/praat.h	2012-03-07 13:27:08.000000000 -0500
-@@ -144,6 +144,7 @@
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/sys/praat.h sources_5353_patched/sys/praat.h
+--- sources_5353/sys/praat.h	2013-04-06 18:59:14.000000000 +0200
++++ sources_5353_patched/sys/praat.h	2013-07-18 14:50:58.172074430 +0200
+@@ -144,6 +144,7 @@ typedef struct {   /* Readonly */
  	int batch;   /* Was the program called from the command line? */
- 	GuiObject topShell;   /* The application shell: parent of editors and standard dialogs. */
+ 	GuiWindow topShell;   /* The application shell: parent of standard dialogs. */
  	ManPages manPages;
 +	wchar **argv; /* NULL-terminated list of command-line arguments including the file name. */
  } structPraatApplication, *PraatApplication;
  typedef struct {   /* Readonly */
  	int n;	 /* The current number of objects in the list. */
-diff -ur -x '*.[oa]' sources_5308/sys/praat_script.cpp sources_current/sys/praat_script.cpp
---- sources_5308/sys/praat_script.cpp	2011-09-11 17:11:54.000000000 -0400
-+++ sources_current/sys/praat_script.cpp	2012-03-07 13:31:28.000000000 -0500
-@@ -412,6 +412,10 @@
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/sys/praat_script.cpp sources_5353_patched/sys/praat_script.cpp
+--- sources_5353/sys/praat_script.cpp	2013-04-06 22:45:20.000000000 +0200
++++ sources_5353_patched/sys/praat_script.cpp	2013-07-18 14:58:47.630351973 +0200
+@@ -412,6 +412,10 @@ void praat_executeCommandFromStandardInp
  }
  
- void praat_executeScriptFromFile (MelderFile file, const wchar *arguments) {
+ void praat_executeScriptFromFile (MelderFile file, const wchar_t *arguments) {
 +	praat_executeScriptFromFile2 (file, arguments, NULL);
 +}
 +
@@ -147,20 +150,20 @@ diff -ur -x '*.[oa]' sources_5308/sys/praat_script.cpp sources_current/sys/praat
  	try {
  		autostring text = MelderFile_readText (file);
  		autoMelderFileSetDefaultDir dir (file);   // so that relative file names can be used inside the script
-@@ -421,6 +425,9 @@
- 			Interpreter_readParameters (interpreter.peek(), text.peek()); therror
- 			Interpreter_getArgumentsFromString (interpreter.peek(), arguments); therror
+@@ -421,6 +425,9 @@ void praat_executeScriptFromFile (Melder
+ 			Interpreter_readParameters (interpreter.peek(), text.peek());
+ 			Interpreter_getArgumentsFromString (interpreter.peek(), arguments);
  		}
 +		if (argv) {
 +			Interpreter_setArgv (interpreter.peek(), argv);
 +		}
- 		Interpreter_run (interpreter.peek(), text.peek()); therror
+ 		Interpreter_run (interpreter.peek(), text.peek());
  	} catch (MelderError) {
  		Melder_throw ("Script ", file, " not completed.");
-@@ -428,6 +435,10 @@
+@@ -428,6 +435,10 @@ void praat_executeScriptFromFile (Melder
  }
  
- void praat_executeScriptFromFileNameWithArguments (const wchar *nameAndArguments) {
+ void praat_executeScriptFromFileNameWithArguments (const wchar_t *nameAndArguments) {
 +	praat_executeScriptFromFileNameWithArguments2 (nameAndArguments, NULL);
 +}
 +
@@ -168,7 +171,7 @@ diff -ur -x '*.[oa]' sources_5308/sys/praat_script.cpp sources_current/sys/praat
  	wchar_t path [256];
  	const wchar_t *p, *arguments;
  	structMelderFile file = { 0 };
-@@ -452,7 +463,7 @@
+@@ -452,7 +463,7 @@ void praat_executeScriptFromFileNameWith
  		if (*arguments == ' ') arguments ++;
  	}
  	Melder_relativePathToFile (path, & file);
@@ -176,17 +179,17 @@ diff -ur -x '*.[oa]' sources_5308/sys/praat_script.cpp sources_current/sys/praat
 +	praat_executeScriptFromFile2 (& file, arguments, argv);
  }
  
- void praat_executeScriptFromText (wchar *text) {
-diff -ur -x '*.[oa]' sources_5308/sys/praat_script.h sources_current/sys/praat_script.h
---- sources_5308/sys/praat_script.h	2011-08-15 20:55:24.000000000 -0400
-+++ sources_current/sys/praat_script.h	2012-03-07 13:29:08.000000000 -0500
+ void praat_executeScriptFromText (wchar_t *text) {
+diff -rupN -x '*.[ao]' -x '*.orig' -x '*.rej' -x '*.sh' -x '*.git' -x scripting -x makefile.defs sources_5353/sys/praat_script.h sources_5353_patched/sys/praat_script.h
+--- sources_5353/sys/praat_script.h	2013-04-01 22:06:12.000000000 +0200
++++ sources_5353_patched/sys/praat_script.h	2013-07-18 14:55:42.360088777 +0200
 @@ -24,7 +24,9 @@
- void praat_executeCommand (Interpreter me, wchar *command);
+ void praat_executeCommand (Interpreter me, wchar_t *command);
  void praat_executeCommandFromStandardInput (const char *programName);
- void praat_executeScriptFromFile (MelderFile file, const wchar *arguments);
+ void praat_executeScriptFromFile (MelderFile file, const wchar_t *arguments);
 +void praat_executeScriptFromFile2 (MelderFile file, const wchar_t *arguments, const wchar **argv);
- void praat_executeScriptFromFileNameWithArguments (const wchar *nameAndArguments);
+ void praat_executeScriptFromFileNameWithArguments (const wchar_t *nameAndArguments);
 +void praat_executeScriptFromFileNameWithArguments2 (const wchar_t *nameAndArguments, const wchar **argv);
- void praat_executeScriptFromText (wchar *text);
+ void praat_executeScriptFromText (wchar_t *text);
  void praat_executeScriptFromDialog (Any dia);
- void DO_praat_runScript (UiForm sendingForm, const wchar *sendingString, Interpreter interpreter_dummy, const wchar *invokingButtonTitle, bool modified, void *dummy);
+ void DO_praat_runScript (UiForm sendingForm, int narg, Stackel args, const wchar_t *sendingString, Interpreter interpreter_dummy, const wchar_t *invokingButtonTitle, bool modified, void *dummy);
