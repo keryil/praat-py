@@ -271,7 +271,7 @@ writing:
     http://www.fon.hum.uva.nl/praat/praat5308_sources.tar.gz
     tar -zxf praat5308_sources.tar.gz
     cd sources_5308
-    cp makefiles/makefile.defs.linux ./makefile.defs
+    cp makefiles/makefile.defs.linux.alsa ./makefile.defs
     make
     ./praat
 
